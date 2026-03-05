@@ -83,6 +83,13 @@ def test_tax_caculator():
     print("Test UNBUGGED TAX CALCULATOR PASSED")
     assert calculate_tax(2.34) == 0.35 #0.351
 
+def test_negative_income():
+    try:
+        calculate_tax(-100)
+        print("Test NEGATIVE INCOME FAILED")
+    except ValueError as e:
+        print("Test NEGATIVE INCOME PASSED")
+
 if __name__ == "__main__":
     test_addition()
     test_addition_with_bug()
@@ -92,3 +99,4 @@ if __name__ == "__main__":
     test_addition_commurative()
     test_tax_caculator()
     test_tax_caculator_pesticide()
+    test_negative_income()
