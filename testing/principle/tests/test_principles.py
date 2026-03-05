@@ -11,13 +11,18 @@
 
 #[DONE] Тесты не должны использовать ВСЕ наборы входных параметров
 #[DONE]Тесты должны покрывать "кластеры" входных параметров
-# Тестовые функции должны тестировать логические блоки 
+#[DONE] Тестовые функции должны тестировать логические блоки 
 
-# Тесты должны обнаруживать новые ошибки (pescicide paradox)
+#[DONE]Тесты должны обнаруживать новые ошибки (pescicide paradox)
+# одних и тех же типов может препятсвовать этому
+# (pescicide paradox)
+
 # Тесты покрывают как успешные, так и ошибочные кейсы
 
 from math_demo import (add,
-                       add_with_bug)
+                       add_with_bug,
+                       calculate_tax_bugged,
+                       calculate_tax)
 
 def test_addition():
     assert add(2,2) ==4
@@ -58,6 +63,25 @@ def test_addition_commurative():
     assert add(5,9) == 14
     print("Test COMMUTATIVE PASSED")
 
+def test_tax_caculator_pesticide():
+    assert calculate_tax_bugged(1000) == 150
+    assert calculate_tax_bugged(100) == 15
+    assert calculate_tax_bugged(10) == 1.5
+    assert calculate_tax_bugged(1) == 0.15
+    assert calculate_tax_bugged(234) == 35.1
+    print("Test TAX CALCULATOR PASSED")
+    #float may give us test cased 
+    # not avaible when using int 
+    # assert calculate_tax_bugged(2.34) == 0.35 #0.351
+
+def test_tax_caculator():
+    assert calculate_tax(1000) == 150
+    assert calculate_tax(100) == 15
+    assert calculate_tax(10) == 1.5
+    assert calculate_tax(1) == 0.15
+    assert calculate_tax(234) == 35.1
+    print("Test UNBUGGED TAX CALCULATOR PASSED")
+    assert calculate_tax(2.34) == 0.35 #0.351
 
 if __name__ == "__main__":
     test_addition()
@@ -66,3 +90,5 @@ if __name__ == "__main__":
     # test_addition_overkill() # can try it on your risk
     test_addition_clussters()
     test_addition_commurative()
+    test_tax_caculator()
+    test_tax_caculator_pesticide()
