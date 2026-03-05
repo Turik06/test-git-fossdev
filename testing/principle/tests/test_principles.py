@@ -11,6 +11,8 @@
 
 #[DONE] Тесты не должны использовать ВСЕ наборы входных параметров
 #[DONE]Тесты должны покрывать "кластеры" входных параметров
+# Тестовые функции должны тестировать логические блоки 
+
 # Тесты должны обнаруживать новые ошибки (pescicide paradox)
 # Тесты покрывают как успешные, так и ошибочные кейсы
 
@@ -63,3 +65,4 @@ if __name__ == "__main__":
     test_addition_duplicate()
     # test_addition_overkill() # can try it on your risk
     test_addition_clussters()
+    test_addition_commurative()
