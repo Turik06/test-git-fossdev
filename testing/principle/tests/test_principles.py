@@ -2,6 +2,7 @@
 # sys.path.append("../src")
 
 # TODO make if with pip install -e .
+#in project root_dir after setuo.py defined
 from math_demo import add
 
 def test_addition():
