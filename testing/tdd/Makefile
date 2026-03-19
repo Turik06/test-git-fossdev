@@ -12,3 +12,10 @@ build:
 
 test-pytest:
 	python3 -m pytest
+
+create-evn:
+	python3 -m venv .venv
+	.venv/bin/pip install -r requirements.txt
+
+test: create-evn install-dep install test-pytestmke
+
