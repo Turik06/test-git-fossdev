@@ -40,3 +40,7 @@ clear:
 	@
 	@rm -rf .venv
 	@echo "Virtual environment removed"
+
+.PHONY: check
+check: typecheck lint check-deps
+	@echo "Start,typecheck,lint,heck-deps"
