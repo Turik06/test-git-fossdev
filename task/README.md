@@ -17,7 +17,7 @@ result: int = add(2, "3") # Ошибка: ожидается int, передан
     src/calc.py:4: error: Argument 2 to "add" has incompatible type "str"; expected "int"
 
 Это предотвращает попадание некорректного кода в основную ветку репозитория.
-
+```
 
 ### Задание №4: Проверка стилей
 
