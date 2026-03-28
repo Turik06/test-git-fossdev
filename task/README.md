@@ -17,3 +17,17 @@ result: int = add(2, "3") # Ошибка: ожидается int, передан
     src/calc.py:4: error: Argument 2 to "add" has incompatible type "str"; expected "int"
 
 Это предотвращает попадание некорректного кода в основную ветку репозитория.
+
+
+### Задание №4: Проверка стилей
+
+В проект внедрен инструмент **pycodestyle**. Он работает в режиме проверки: выявляет нарушения стандартов оформления и сообщает о них, не изменяя исходный код принудительно. Это соответствует принципу осознанной разработки.
+
+В Makefile создан абстрактный target `lint`. При его выполнении система анализирует файл `src/example.py` и выводит список диагностированных ошибок:
+
+```text
+src/example.py:1:9: E201 whitespace after '('
+src/example.py:1:11: E231 missing whitespace after ','
+src/example.py:1:13: E202 whitespace before ')'
+src/example.py:2:2: E111 indentation is not a multiple of 4
+```

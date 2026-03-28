@@ -12,6 +12,7 @@ $(INSTALLED_FLAG): requirements.txt
 	@.venv/bin/python3.12 -m pip install --upgrade pip
 	@.venv/bin/python3.12 -m pip install -r requirements.txt
 	@.venv/bin/python3.12 -m pip install mypy deptry
+	@.venv/bin/python3.12 -m pip install mypy deptry pycodestyle
 	@touch $(INSTALLED_FLAG)
 	@echo "Environment is ready"
 
@@ -20,6 +21,10 @@ typecheck: $(INSTALLED_FLAG)
 	@echo "Start type checking"
 	@$(MYPY) src/calc.py
 
+.PHONY: lint
+lint: $(INSTALLED_FLAG)
+	@echo "Start linting"
+	@$(PYTHON) -m pycodestyle src/example.py
 
 .PHONY: run
 
