@@ -27,7 +27,6 @@ lint: $(INSTALLED_FLAG)
 	@echo "Start linting"
 	@$(PYTHON) -m pycodestyle src/example.py
 
-
 .PHONY: run
 
 run: $(INSTALLED_FLAG)
@@ -36,7 +35,8 @@ run: $(INSTALLED_FLAG)
 
 check-deps: $(INSTALLED_FLAG)
 	@$(PYTHON) -m deptry src --requirements-files requirements.txt
-f
+
+
 .PHONY: clear
 clear:
 	@
