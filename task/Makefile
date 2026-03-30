@@ -6,9 +6,9 @@ INSTALLED_FLAG := .venv/.installed
 
 $(INSTALLED_FLAG): requirements.txt
 	@python3.12 -m venv .venv
-	@.venv/bin/python3.12 -m pip install --upgrade pip
-	@.venv/bin/python3.12 -m pip install -r requirements.txtma
-	@.venv/bin/python3.12 -m pip install mypy deptry pycodestyle
+	@$(PYTHON) -m pip install --upgrade pip
+	@$(PYTHON) -m pip install -r requirements.txt
+	@$(PYTHON) -m pip install mypy deptry pycodestyle
 	@touch $(INSTALLED_FLAG)
 	@echo "Environment is ready"
 

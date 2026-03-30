@@ -1,3 +1,37 @@
+### Задание №1 Создание окружения
+Для работы с файлами питона мы создали таргет, который автоматически создает окружение,ставит туда все нужные зависимости и создает переменную PYTHON, указывающую на расположение питон интерпретатора окружения.
+```
+PYTHON := .venv/bin/python3.12
+```
+Остальные таргеты используют эту переменную для запуска питона внтури окружения.
+
+### Задание №2 Проверка зависимостей
+
+Для проверки недостающих и лишних зависимостей мы использовали инструмент deptry, который в автоматическом режиме проверяет все импорты и файлы типа requirements.txt/pyproject.toml
+
+в тестовом файле service.py указаны следующие импорты:
+```python
+import requests
+import numpy
+import fastapi
+```
+
+в requirements.txt указаны следующие библиотеки
+```
+numpy
+mypy
+```
+по итогу вывод команды "make check-deps" будет таким:
+
+```
+requirements.txt: DEP002 'mypy' defined as a dependency but not used in the codebase
+src/service.py:1:8: DEP001 'requests' imported but missing from the dependency definitions
+src/service.py:3:8: DEP001 'fastapi' imported but missing from the dependency definitions
+Found 3 dependency issues.
+```
+deptry указывала, что mypy является лишней в requirements.txt, а requests и fastapi - наоборот, не хватает.
+
+
 ### Задание №3 Проверка типов 
 
 В проект внедрён инструмент mypy для анализа аннотаций типов. Это позволяет отловить ошибки типизации на этапе сборки, не запуская само приложение. 
