@@ -3,13 +3,19 @@
 
 def _parse_record(line: str):
     sale = line.strip().split(",") 
-    if len(line) != 4:  # according spec each sale is defined by four fields
+    if len(sale) != 4:  # according spec each sale is defined by four fields
         return None  # return nothing
 
     product_name = sale[0]  
     category = sale[1]  
-    unit_price = float(sale[2])  
-    quantity = int(sale[3])  
+    try:
+        unit_price = float(sale[2])
+        quantity = int(sale[3])
+        if int(sale[3] != float(sale[3])):  
+            return None
+    except ValueError:
+        return None  
+
 
     return {"n": product_name, "c": category, "a": unit_price, "q": quantity} 
 
