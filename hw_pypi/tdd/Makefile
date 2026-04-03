@@ -10,7 +10,7 @@ publish: build
 	.venv/bin/python3 -m twine upload --repository testpypi dist/*
 
 clean:
-	rm -rf build dist *.egg-info .pytest_cache src/*/__pycache__ tests/__pycache__ ./.venv
+	rm -rf build dist src/*.egg-info .pytest_cache src/*/__pycache__ tests/__pycache__ ./.venv
 
 venv:
 	python3.12 -m venv .venv
