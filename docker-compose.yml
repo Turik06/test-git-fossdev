@@ -6,12 +6,12 @@ services:
     networks:
       - service-net
 
-  discount-service:
-    build: ./discount-service  
-    ports:
-      - "8003:8000"
-    networks:
-      - service-net
+  # discount-service:
+  #   build: ./discount-service  
+  #   ports:
+  #     - "8003:8000"
+  #   networks:
+  #     - service-net
 
   order-service:
     build: ./order_service    
@@ -25,6 +25,26 @@ services:
       - discount-service
     networks:
       - service-net
+
+  redis:
+    image: redis:alpine
+    container_name: redis-cache
+    networks:
+      - service-net
+    ports:
+      - "6379:6379" 
+
+  discount-service:
+    build: ./discount-service
+    container_name: discount-service
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379 
+    networks:
+      - service-net
+    depends_on:
+      - redis 
 
 networks:
   service-net:

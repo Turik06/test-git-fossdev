@@ -1,42 +1,45 @@
+import os
+import redis.asyncio as redis 
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Optional
 
+app = FastAPI()
 
-app = FastAPI(title="Discount Service")
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+redis_client = redis.from_url(REDIS_URL, decode_responses=True)
 
+@app.on_event("startup")
+async def startup_event():
+    await redis_client.set("STUDENT10", 10)
+    await redis_client.set("WINTER20", 20)
 
 class DiscountRequest(BaseModel):
     product_id: str
-    quantity: int = Field(gt=0)
-    unit_price: float = Field(gt=0)
-    promo_code: str | None = None  
+    quantity: int
+    unit_price: float
+    promo_code: Optional[str] = None
 
+@app.post("/discounts/calculate")
+async def calculate_discount(request: DiscountRequest):
+    discount_percent = 0
+    reason = "No discount applied"
 
-class DiscountResponse(BaseModel):
-    discount_percent: float
-    reason: str
-
-
-@app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok", "service": "discount-service"}
-
-
-@app.post("/discounts/calculate", response_model=DiscountResponse)
-def calculate_discount(request: DiscountRequest) -> DiscountResponse:
-    if request.promo_code == "STUDENT10":
-        return DiscountResponse(
-            discount_percent=10.0,
-            reason="Student promo code applied (10%)"
-        )
-        
     if request.quantity >= 10:
-        return DiscountResponse(
-            discount_percent=15.0,
-            reason="Wholesale discount applied (15% for 10+ items)"
-        )
+        discount_percent = 5
+        reason = "Wholesale discount applied (qty >= 10)"
+
+    if request.promo_code:
+        promo_discount = await redis_client.get(request.promo_code)
         
-    return DiscountResponse(
-        discount_percent=0.0,
-        reason="No discount rules matched"
-    )
+        if promo_discount:
+            if int(promo_discount) > discount_percent:
+                discount_percent = int(promo_discount)
+                reason = f"Promo code '{request.promo_code}' applied"
+        else:
+            reason = f"Invalid or expired promo code '{request.promo_code}'"
+
+    return {
+        "discount_percent": discount_percent,
+        "reason": reason
+    }
