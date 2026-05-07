@@ -4,9 +4,7 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN pip install poetry && poetry install --only main --no-root
 
-COPY src/app ./app
+COPY src ./src
 
-CMD ["poetry","run","uvicorn", "app.main:app",\
+CMD ["poetry", "run", "uvicorn", "src.main:app", \
     "--host", "0.0.0.0", "--port", "8000"]
-
-
